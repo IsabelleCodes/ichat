@@ -40,6 +40,7 @@ h1 {
   word-wrap: break-word;
   text-align: left;
   box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+  position: relative;
 }
 
 .friend-message {
@@ -53,13 +54,27 @@ h1 {
   word-wrap: break-word;
   text-align: left;
   box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+  position: relative;
 }
 
+/* Delete Button */
+.your-message button {
+  position: absolute;
+  top: 5px;
+  right: 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Input area styling */
 .input-area {
   margin-top: 20px;
 }
 
-#messageInput {
+#usernameInput, #messageInput {
   width: 60%;
   padding: 10px;
   font-size: 16px;
@@ -76,8 +91,16 @@ button {
   border-radius: 8px;
   margin-left: 10px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
   background-color: #479ac8;
+}
+
+/* Clear floats after chat bubbles */
+#chat-box::after {
+  content: "";
+  display: block;
+  clear: both;
 }
