@@ -1,9 +1,9 @@
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// Your Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyCKwa3UVSC9vG8dmHd_Lo50jL9FnTx-WAY",
   authDomain: "naomichat-c6a83.firebaseapp.com",
   projectId: "naomichat-c6a83",
-  storageBucket: "naomichat-c6a83.firebasestorage.app",
+  storageBucket: "naomichat-c6a83.appspot.com",
   messagingSenderId: "555713745677",
   appId: "1:555713745677:web:81ee03a23c2545473d1644",
   measurementId: "G-6LLZL6KJ2H"
@@ -11,47 +11,57 @@ const firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-
-// Reference to your Firestore database
 const db = firebase.firestore();
 
-// Function to send a message
+// Send a message
 function sendMessage(username, message) {
-  db.collection('messages').add({
+  if (message.trim() === "") return;
+
+  db.collection("messages").add({
     user: username,
     text: message,
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
-  }).then(() => {
-    console.log("Message sent!");
+  });
+
+  document.getElementById("messageInput").value = "";
+}
+
+// Delete a message by ID
+function deleteMessage(id) {
+  db.collection("messages").doc(id).delete().then(() => {
+    console.log("Message deleted");
   }).catch((error) => {
-    console.error("Error sending message: ", error);
+    console.error("Delete failed: ", error);
   });
 }
 
-// Function to listen for new messages in real-time
-function listenForMessages(callback) {
-  db.collection('messages').orderBy('timestamp')
-    .onSnapshot((snapshot) => {
-      const messages = [];
-      snapshot.forEach((doc) => {
-        messages.push(doc.data());
-      });
-      callback(messages);
-    });
-}
-// Show messages on the page
-listenForMessages((messages) => {
+// Display messages in real-time
+db.collection("messages").orderBy("timestamp").onSnapshot((snapshot) => {
   const chatBox = document.getElementById("chat-box");
-  chatBox.innerHTML = ""; // Clear current messages
+  chatBox.innerHTML = "";
 
-  messages.forEach((msg) => {
+  snapshot.forEach((doc) => {
+    const msg = doc.data();
     const div = document.createElement("div");
-    div.className = msg.user === "Isabelle" ? "your-message" : "friend-message";
+
+    // Get current username
+    const currentUser = document.getElementById("usernameInput").value || "Anonymous";
+
+    // Set message class
+    div.className = msg.user === currentUser ? "your-message" : "friend-message";
     div.textContent = `${msg.user}: ${msg.text}`;
+
+    // Add delete button if it's your message
+    if (msg.user === currentUser) {
+      const delBtn = document.createElement("button");
+      delBtn.textContent = "🗑️";
+      delBtn.style.marginLeft = "10px";
+      delBtn.onclick = () => deleteMessage(doc.id);
+      div.appendChild(delBtn);
+    }
+
     chatBox.appendChild(div);
   });
 
-  // Scroll to bottom after message appears
   chatBox.scrollTop = chatBox.scrollHeight;
 });
-
