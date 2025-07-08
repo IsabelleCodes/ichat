@@ -1,0 +1,83 @@
+body {
+  font-family: 'Arial', sans-serif;
+  text-align: center;
+  background: #d5a8c9;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  background-color: #5fb0df;
+  color: white;
+  padding: 20px 0;
+  margin: 0;
+  font-size: 24px;
+}
+
+#chat-box {
+  width: 90%;
+  max-width: 600px;
+  height: 350px;
+  margin: 20px auto;
+  padding: 10px;
+  border: 2px solid #aaa;
+  background: rgb(128, 168, 233);
+  overflow-y: auto;
+  box-shadow: 0 0 10px #aaa;
+  border-radius: 10px;
+  text-align: left;
+}
+
+/* Message Bubbles */
+.your-message {
+  background-color: #86dfbe;
+  float: right;
+  clear: both;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 15px;
+  max-width: 70%;
+  word-wrap: break-word;
+  text-align: left;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+}
+
+.friend-message {
+  background-color: #61e2a4;
+  float: left;
+  clear: both;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 15px;
+  max-width: 70%;
+  word-wrap: break-word;
+  text-align: left;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+}
+
+.input-area {
+  margin-top: 20px;
+}
+
+#messageInput {
+  width: 60%;
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #aaa;
+  border-radius: 8px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #5fb0df;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #479ac8;
+}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<meta charset="UTF-8" />
+  <title>iChat - Isabelle's Message App</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>💬 iChat - Chat with Friends!</h1>
+
+  <div id="chat-box"></div>
+
+  <div class="input-area">
+   <input type="text" id="messageInput" placeholder="Type your message..." />
+<button onclick="sendMessage('Isabelle', document.getElementById('messageInput').value)">Send</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+
+
