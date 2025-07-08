@@ -74,12 +74,22 @@ h1 {
   margin-top: 20px;
 }
 
-#usernameInput, #messageInput {
+#messageInput {
   width: 60%;
   padding: 10px;
   font-size: 16px;
   border: 2px solid #aaa;
   border-radius: 8px;
+}
+
+#emojiBtn {
+  font-size: 24px;
+  padding: 6px 10px;
+  margin-left: 5px;
+  cursor: pointer;
+  border-radius: 8px;
+  border: 2px solid #aaa;
+  background-color: white;
 }
 
 button {
@@ -96,6 +106,18 @@ button {
 
 button:hover {
   background-color: #479ac8;
+}
+
+#auth-section input {
+  margin: 5px 10px;
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 2px solid #aaa;
+}
+
+#auth-section button {
+  margin: 5px 5px;
 }
 
 /* Clear floats after chat bubbles */
