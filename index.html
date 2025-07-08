@@ -8,31 +8,32 @@
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 </head>
 <body>
   <h1>💬 iChat - Chat with Friends!</h1>
 
-  <!-- Username Input -->
-  <div class="input-area">
-    <input type="text" id="usernameInput" placeholder="Enter your name..." />
+  <div id="auth-section">
+    <input type="email" id="email" placeholder="Email" />
+    <input type="password" id="password" placeholder="Password" />
+    <button id="signupBtn">Sign Up</button>
+    <button id="loginBtn">Log In</button>
+    <button id="logoutBtn" style="display:none;">Log Out</button>
+    <p id="auth-status"></p>
   </div>
 
-  <!-- Chat Messages -->
-  <div id="chat-box"></div>
+  <div id="chat-section" style="display:none;">
+    <div id="chat-box"></div>
 
-  <!-- Message Input and Send -->
-  <div class="input-area">
-    <input type="text" id="messageInput" placeholder="Type your message..." />
-    <button onclick="sendMessage(document.getElementById('usernameInput').value, document.getElementById('messageInput').value)">
-      Send
-    </button>
+    <div class="input-area">
+      <input type="text" id="messageInput" placeholder="Type your message... 😊" />
+      <button id="emojiBtn">😀</button>
+      <button id="sendBtn">Send</button>
+    </div>
   </div>
 
-  <!-- Your Script -->
   <script src="script.js"></script>
 </body>
 </html>
-
-
 
 
