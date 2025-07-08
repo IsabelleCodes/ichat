@@ -32,8 +32,8 @@ let currentUser = null;
 
 // Sign up
 signupBtn.onclick = () => {
-  const email = emailInput.value;
-  const password = passwordInput.value;
+  const email = emailInput.value.trim();
+  const password = passwordInput.value.trim();
   if (!email || !password) {
     authStatus.textContent = "Please enter email and password";
     return;
@@ -45,8 +45,8 @@ signupBtn.onclick = () => {
 
 // Log in
 loginBtn.onclick = () => {
-  const email = emailInput.value;
-  const password = passwordInput.value;
+  const email = emailInput.value.trim();
+  const password = passwordInput.value.trim();
   if (!email || !password) {
     authStatus.textContent = "Please enter email and password";
     return;
@@ -85,7 +85,7 @@ sendBtn.onclick = () => {
     user: currentUser.email,
     text: text,
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
-  });
+  }).catch(e => console.error("Error sending message:", e));
 
   messageInput.value = "";
 };
@@ -108,7 +108,7 @@ db.collection("messages").orderBy("timestamp")
         const delBtn = document.createElement("button");
         delBtn.textContent = "🗑️";
         delBtn.onclick = () => {
-          db.collection("messages").doc(doc.id).delete();
+          db.collection("messages").doc(doc.id).delete().catch(e => console.error("Delete failed:", e));
         };
         div.appendChild(delBtn);
       }
