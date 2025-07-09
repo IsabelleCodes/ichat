@@ -1,4 +1,5 @@
 alert("JS is loaded!");
+alert("JavaScript is working!");
 // Your Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyCKwa3UVSC9vG8dmHd_Lo50jL9FnTx-WAY",
