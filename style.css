@@ -1,7 +1,7 @@
 body {
   font-family: 'Arial', sans-serif;
   text-align: center;
-  background: #d5a8c9;
+  background: #8ee1d8;
   margin: 0;
   padding: 0;
 }
@@ -44,7 +44,7 @@ h1 {
 }
 
 .friend-message {
-  background-color: #61e2a4;
+  background-color: #61e0e2;
   float: left;
   clear: both;
   padding: 10px;
@@ -95,7 +95,7 @@ h1 {
 button {
   padding: 10px 20px;
   font-size: 16px;
-  background-color: #5fb0df;
+  background-color: #62b0de;
   color: white;
   border: none;
   border-radius: 8px;
