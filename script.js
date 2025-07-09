@@ -1,4 +1,3 @@
-// Your Firebase config — replace with your own config!
 const firebaseConfig = {
   apiKey: "AIzaSyCKwa3UVSC9vG8dmHd_Lo50jL9FnTx-WAY",
   authDomain: "naomichat-c6a83.firebaseapp.com",
@@ -9,7 +8,6 @@ const firebaseConfig = {
   measurementId: "G-6LLZL6KJ2H"
 };
 
-// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const auth = firebase.auth();
@@ -19,6 +17,7 @@ const chatSection = document.getElementById("chat-section");
 const chatBox = document.getElementById("chat-box");
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
+const displayNameInput = document.getElementById("displayName");
 const signupBtn = document.getElementById("signupBtn");
 const loginBtn = document.getElementById("loginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
@@ -34,12 +33,22 @@ let currentUser = null;
 signupBtn.onclick = () => {
   const email = emailInput.value.trim();
   const password = passwordInput.value.trim();
-  if (!email || !password) {
-    authStatus.textContent = "Please enter email and password";
+  const name = displayNameInput.value.trim();
+
+  if (!email || !password || !name) {
+    authStatus.textContent = "Please enter display name, email, and password.";
     return;
   }
+
   auth.createUserWithEmailAndPassword(email, password)
-    .then(() => authStatus.textContent = "Sign up successful! Please log in.")
+    .then((userCredential) => {
+      return userCredential.user.updateProfile({
+        displayName: name
+      });
+    })
+    .then(() => {
+      authStatus.textContent = "Sign up successful! Please log in.";
+    })
     .catch(e => authStatus.textContent = e.message);
 };
 
@@ -47,10 +56,12 @@ signupBtn.onclick = () => {
 loginBtn.onclick = () => {
   const email = emailInput.value.trim();
   const password = passwordInput.value.trim();
+
   if (!email || !password) {
-    authStatus.textContent = "Please enter email and password";
+    authStatus.textContent = "Please enter email and password.";
     return;
   }
+
   auth.signInWithEmailAndPassword(email, password)
     .catch(e => authStatus.textContent = e.message);
 };
@@ -60,13 +71,13 @@ logoutBtn.onclick = () => {
   auth.signOut();
 };
 
-// Auth state changed
+// Auth state change
 auth.onAuthStateChanged(user => {
   if (user) {
     currentUser = user;
     authSection.style.display = "none";
     chatSection.style.display = "block";
-    authStatus.textContent = `Logged in as ${user.email}`;
+    authStatus.textContent = `Logged in as ${user.displayName}`;
   } else {
     currentUser = null;
     authSection.style.display = "block";
@@ -82,10 +93,10 @@ sendBtn.onclick = () => {
   if (!text || !currentUser) return;
 
   db.collection("messages").add({
-    user: currentUser.email,
+    user: currentUser.displayName || currentUser.email,
     text: text,
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
-  }).catch(e => console.error("Error sending message:", e));
+  });
 
   messageInput.value = "";
 };
@@ -101,14 +112,13 @@ db.collection("messages").orderBy("timestamp")
       const timeString = time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
       div.textContent = `${msg.user} [${timeString}]: ${msg.text}`;
-      div.className = (msg.user === (currentUser ? currentUser.email : "")) ? "your-message" : "friend-message";
+      div.className = (msg.user === (currentUser?.displayName || currentUser?.email)) ? "your-message" : "friend-message";
 
-      // Add delete button only on your messages
-      if (msg.user === (currentUser ? currentUser.email : "")) {
+      if (msg.user === (currentUser?.displayName || currentUser?.email)) {
         const delBtn = document.createElement("button");
         delBtn.textContent = "🗑️";
         delBtn.onclick = () => {
-          db.collection("messages").doc(doc.id).delete().catch(e => console.error("Delete failed:", e));
+          db.collection("messages").doc(doc.id).delete();
         };
         div.appendChild(delBtn);
       }
@@ -118,11 +128,12 @@ db.collection("messages").orderBy("timestamp")
     chatBox.scrollTop = chatBox.scrollHeight;
   });
 
-// Emoji picker (basic)
+// Emoji picker
 emojiBtn.onclick = () => {
-  const emoji = prompt("Enter an emoji (or copy-paste one):");
+  const emoji = prompt("Enter an emoji:");
   if (emoji) {
     messageInput.value += emoji;
     messageInput.focus();
   }
 };
+
