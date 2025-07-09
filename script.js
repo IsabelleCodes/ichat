@@ -39,6 +39,12 @@ signupBtn.onclick = () => {
     authStatus.textContent = "Please enter display name, email, and password.";
     return;
   }
+  auth.createUserWithEmailAndPassword(email, password)
+  .then((userCredential) => {
+    return userCredential.user.updateProfile({
+      displayName: name
+    });
+  })
 
   auth.createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
@@ -93,7 +99,7 @@ sendBtn.onclick = () => {
   if (!text || !currentUser) return;
 
   db.collection("messages").add({
-    user: currentUser.displayName || currentUser.email,
+    user: currentUser.displayName,
     text: text,
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
   });
