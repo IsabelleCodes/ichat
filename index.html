@@ -14,26 +14,25 @@
   <h1>💬 iChat - Chat with Friends!</h1>
 
   <div id="auth-section">
+    <input type="text" id="displayName" placeholder="Display name" />
     <input type="email" id="email" placeholder="Email" />
     <input type="password" id="password" placeholder="Password" />
     <button id="signupBtn">Sign Up</button>
     <button id="loginBtn">Log In</button>
-    <button id="logoutBtn" style="display:none;">Log Out</button>
     <p id="auth-status"></p>
   </div>
 
-  <div id="chat-section" style="display:none;">
+  <div id="chat-section" style="display: none;">
     <div id="chat-box"></div>
 
     <div class="input-area">
-      <input type="text" id="messageInput" placeholder="Type your message... 😊" />
-      <button id="emojiBtn">😀</button>
+      <input type="text" id="messageInput" placeholder="Type your message..." />
+      <button id="emojiBtn">😊</button>
       <button id="sendBtn">Send</button>
+      <button id="logoutBtn">Logout</button>
     </div>
   </div>
 
   <script src="script.js"></script>
 </body>
 </html>
-
-
