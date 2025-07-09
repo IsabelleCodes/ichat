@@ -1,26 +1,31 @@
+// Your Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyCKwa3UVSC9vG8dmHd_Lo50jL9FnTx-WAY",
   authDomain: "naomichat-c6a83.firebaseapp.com",
   projectId: "naomichat-c6a83",
   storageBucket: "naomichat-c6a83.appspot.com",
   messagingSenderId: "555713745677",
-  appId: "1:555713745677:web:81ee03a23c2545473d1644",
-  measurementId: "G-6LLZL6KJ2H"
+  appId: "1:555713745677:web:81ee03a23c2545473d1644"
 };
 
+// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const auth = firebase.auth();
 
+// Grab elements
 const authSection = document.getElementById("auth-section");
 const chatSection = document.getElementById("chat-section");
 const chatBox = document.getElementById("chat-box");
-const emailInput = document.getElementById("Name");
+
+const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 const displayNameInput = document.getElementById("displayName");
+
 const signupBtn = document.getElementById("signupBtn");
 const loginBtn = document.getElementById("loginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
+
 const authStatus = document.getElementById("auth-status");
 
 const messageInput = document.getElementById("messageInput");
@@ -39,12 +44,6 @@ signupBtn.onclick = () => {
     authStatus.textContent = "Please enter display name, email, and password.";
     return;
   }
-  auth.createUserWithEmailAndPassword(email, password)
-  .then((userCredential) => {
-    return userCredential.user.updateProfile({
-      displayName: name
-    });
-  })
 
   auth.createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
@@ -77,7 +76,7 @@ logoutBtn.onclick = () => {
   auth.signOut();
 };
 
-// Auth state change
+// Auth state
 auth.onAuthStateChanged(user => {
   if (user) {
     currentUser = user;
@@ -107,20 +106,20 @@ sendBtn.onclick = () => {
   messageInput.value = "";
 };
 
-// Listen for messages
+// Show messages
 db.collection("messages").orderBy("timestamp")
   .onSnapshot(snapshot => {
     chatBox.innerHTML = "";
     snapshot.forEach(doc => {
       const msg = doc.data();
-      const div = document.createElement("div");
       const time = msg.timestamp ? msg.timestamp.toDate() : new Date();
       const timeString = time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
+      const div = document.createElement("div");
       div.textContent = `${msg.user} [${timeString}]: ${msg.text}`;
-      div.className = (msg.user === (currentUser?.displayName || currentUser?.email)) ? "your-message" : "friend-message";
+      div.className = (msg.user === currentUser?.displayName) ? "your-message" : "friend-message";
 
-      if (msg.user === (currentUser?.displayName || currentUser?.email)) {
+      if (msg.user === currentUser?.displayName) {
         const delBtn = document.createElement("button");
         delBtn.textContent = "🗑️";
         delBtn.onclick = () => {
@@ -134,7 +133,7 @@ db.collection("messages").orderBy("timestamp")
     chatBox.scrollTop = chatBox.scrollHeight;
   });
 
-// Emoji picker
+// Add emoji
 emojiBtn.onclick = () => {
   const emoji = prompt("Enter an emoji:");
   if (emoji) {
@@ -142,4 +141,3 @@ emojiBtn.onclick = () => {
     messageInput.focus();
   }
 };
-
